@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Custom-suit"  parallel="tests" thread-count="2"> <!-- -->
+	<test name="TestCase_ID_TC0001">
+		<parameter name="TestCase_ID" value="TC0001" />
+		<classes>
+			<class name="com.dev.sandbox.test.FirstTest" />
+		</classes>
+	</test>
+	<test name="TestCase_ID_TC0002">
+		<parameter name="TestCase_ID" value="TC0002" />
+		<classes>
+			<class name="com.dev.sandbox.test.FirstTest" />
+		</classes>
+	</test>
+	<test name="TestCase_ID_TC0003">
+		<parameter name="TestCase_ID" value="TC0003" />
+		<classes>
+			<class name="com.dev.sandbox.test.FirstTest" />
+		</classes>
+	</test>
+	
+</suite>
