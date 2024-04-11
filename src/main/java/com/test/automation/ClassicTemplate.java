@@ -16,7 +16,7 @@ public class ClassicTemplate {
 
 
 	public static void main(String[] args) throws Exception {
-		 ClassicTemplate myReport =  new ClassicTemplate("Report_sandbo","Data");
+		 ClassicTemplate myReport =  new ClassicTemplate("Report_sandbox","Data");
 	        myReport.generateReport();
 		
 	}
@@ -37,30 +37,44 @@ public class ClassicTemplate {
 		return style;
 	}
 	private static Element[] appendRowTR(Element parentTable) {
-	        Element row[] = new Element[3];
-	        for(int i=0;i<3; i++)
+	        Element row[] = new Element[4];
+	        for(int i=0;i<4; i++)
 	        {
 	        	row[i] = parentTable.appendElement("tr");
 	        }
 	        return row;
 	    }
+	/*
+	 * This method gets tr element as input and adds td element 
+	 */
 	private static Element[] appendRowTD(Element[] tableRows, String columnData[]) {
 		
-		Element col[]= new Element[3];
+		Element col[]= new Element[4];
 		for (int j =0; j<tableRows.length;j++)
 		{
 			for(int i=0;i<columnData.length; i++)
 			{
 				col[j] = tableRows[j].appendElement("td").text(columnData[i]);
+				if(i==2 ) {
+					if(columnData[i].toLowerCase().equalsIgnoreCase("pass"))
+					{
+						addPassField(col[j]);
+					}else {
+						addFailField(col[j]);
+						
+					}
+				}
 			}
 		}
 		return col;
 	}
-	private static void addPassField(Element td) {
-	
+	private static void addPassField(Element td) {	
 			td
 			.html("<i class=\"fa fa-check-circle-o green\"></i><span class=\"ms-1\">Pass</span>");
-			
+	}
+	private static void addFailField(Element td) {	
+		td
+		.html("<i class=\"fa fa-dot-circle-o text-danger\"></i><span class=\"ms-1\">Fail</span>");
 	}
     public ClassicTemplate(String title, String reportAbout) throws Exception {
         // Create a new HTML document
@@ -100,7 +114,7 @@ public class ClassicTemplate {
         //Element table = mainDiv.appendElement("table");
         //Retrieve Data from excel
         
-        String columnNames[] = {"col-1","col-2","col-3","col-4"};
+        String columnNames[] = {"# Step No","Date","Status","Req","Evidence"};
         String tableHeadings = "";
         String rowDatas = "";
         
@@ -117,7 +131,7 @@ public class ClassicTemplate {
         }
         
         
-//        String columnData[] = {"col-1","col-2","<i class=\"fa fa-check-circle-o green\"></i><span class=\"ms-1\">Pass</span>","col-4"};
+        String columnData[] = {"col-1","col-2","Pass","col-4","col-5"};
 //        
 //        for(int names=0;names<columnNames.length; names++)
 //        {
@@ -136,7 +150,7 @@ public class ClassicTemplate {
         
         Element tableRows[] = appendRowTR(table);
         
-        Element tableRowsData[] = appendRowTD(tableRows, columnNames);
+        Element tableRowsData[] = appendRowTD(tableRows, columnData);
         // Write the document to a file
        
     }
@@ -146,7 +160,6 @@ public class ClassicTemplate {
        	  FileWriter writer = new FileWriter(new File(".//reports//template.html"));
              writer.write(doc.outerHtml());
              writer.close();
-
            System.out.println("HTML template file generated successfully.");
        } catch (IOException e) {
            e.printStackTrace();
